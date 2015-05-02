@@ -1,0 +1,16 @@
+//apply from: 'http://dl.bintray.com/content/shemnon/javafx-gradle/javafx.plugin'
+//apply from: 'javafx.plugin'
+//
+//javafx {
+//  mainClass = 'swinginterop.SwingInterop'
+//}
+
+apply plugin: 'application'
+
+
+version = '1.0'
+
+
+dependencies {
+    compile project(':core')
+}
