@@ -1,6 +1,12 @@
 package cz.miko.tabor.core.model;
 
+import cz.miko.tabor.core.service.Java8Utils;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 
 /**
  * Description
@@ -9,8 +15,31 @@ import lombok.Data;
  * @version $Id: $
  */
 @Data
-public class User {
+@EqualsAndHashCode(callSuper = true)
+public class User extends Entity {
 
 	private String firstName;
 	private String lastName;
+	private Date birthday;
+	private String address;
+	private String city;
+	private String postCode;
+	private String sex;
+	private String note;
+	private String email;
+	private String phone;
+
+	public long getAge() {
+		LocalDate now = LocalDate.now();
+		return getAge(now);
+	}
+
+	protected long getAge(LocalDate now) {
+		LocalDate birthday = Java8Utils.toLocalDate(getBirthday());
+		return birthday.until(now, ChronoUnit.YEARS);
+	}
+
+	public String getDisplayName() {
+		return firstName + " " + lastName;
+	}
 }

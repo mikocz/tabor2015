@@ -2,13 +2,14 @@
 //apply from: 'javafx.plugin'
 //
 //javafx {
-//  mainClass = 'swinginterop.SwingInterop'
+//  mainClass = 'cz.miko.tabor.Main'
 //}
 
 apply plugin: 'application'
 
-
 version = '1.0'
+
+mainClassName = "cz.miko.tabor.TaborApp"
 
 
 dependencies {

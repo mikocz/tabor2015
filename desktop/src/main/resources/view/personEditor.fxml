@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane prefHeight="454.0" prefWidth="539.0" styleClass="background"
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="cz.miko.tabor.controller.PersonalEditorController">
+    <children>
+        <GridPane layoutX="30.0" layoutY="28.0" prefHeight="330.0" prefWidth="404.0" AnchorPane.leftAnchor="10.0"
+                  AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="218.0" minWidth="10.0" prefWidth="111.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="316.0" minWidth="10.0" prefWidth="261.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="80.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <children>
+                <Label text="Jméno"/>
+                <Label text="Příjmení" GridPane.rowIndex="1"/>
+                <Label text="Ulice" GridPane.rowIndex="2"/>
+                <Label text="Město" GridPane.rowIndex="3"/>
+                <Label text="PSČ" GridPane.rowIndex="4"/>
+                <Label text="D.narození" GridPane.rowIndex="5"/>
+                <Label text="Telefon" GridPane.rowIndex="6"/>
+                <Label text="Email" GridPane.rowIndex="7"/>
+                <Label text="Poznámka" GridPane.rowIndex="8"/>
+                <TextField fx:id="firstNameField" GridPane.columnIndex="1"/>
+                <TextField fx:id="lastNameField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <TextField fx:id="streetField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                <TextField fx:id="cityField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                <TextField fx:id="postalCodeField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                <TextField fx:id="birthdayField" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                <TextField fx:id="phoneField" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+                <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+                <TextArea fx:id="noteField" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+            </children>
+        </GridPane>
+        <ButtonBar layoutX="176.0" layoutY="233.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+            <buttons>
+                <Button fx:id="storeButton" defaultButton="true" mnemonicParsing="false" onAction="#handleOk" text="Uložit (ctrl+S)"/>
+                <Button defaultButton="false" mnemonicParsing="false" onAction="#handleOk" text="Uložit a zavřít"/>
+                <Button mnemonicParsing="false" onAction="#handleCancel" prefWidth="120.0" text="Zrušit"/>
+            </buttons>
+        </ButtonBar>
+    </children>
+</AnchorPane>

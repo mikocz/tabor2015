@@ -1,6 +1,7 @@
 package cz.miko.tabor.config;
 
 import cz.miko.tabor.core.config.TaborCoreConfig;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -13,6 +14,11 @@ import org.springframework.context.annotation.Import;
  */
 @Configuration
 @Import(TaborCoreConfig.class)
-@ComponentScan({"cz.miko.tabor.controller."})
+@ComponentScan({"cz.miko.tabor.controller"})
 public class TaborAppConfig {
+
+	@Bean
+	public MainAppHolder mainAppHolder() {
+		return new MainAppHolder();
+	}
 }

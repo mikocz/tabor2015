@@ -1,12 +1,11 @@
 package cz.miko.tabor.config;
 
+import cz.miko.tabor.TaborApp;
 import cz.miko.tabor.controller.Controller;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,14 +20,13 @@ public class SpringFXMLLoader {
 
 	private static final Log log = LogFactory.getLog(SpringFXMLLoader.class);
 
-	private static final ApplicationContext APPLICATION_CONTEXT = new AnnotationConfigApplicationContext(TaborAppConfig.class);
 
 	public static Controller load(String url) {
 		InputStream fxmlStream = null;
 		try {
 			fxmlStream = SpringFXMLLoader.class.getResourceAsStream(url);
 			FXMLLoader loader = new FXMLLoader();
-			loader.setControllerFactory(aClass -> APPLICATION_CONTEXT.getBean(aClass));
+			loader.setControllerFactory(TaborApp.APPLICATION_CONTEXT::getBean);
 
 			Node view = loader.load(fxmlStream);
 			Controller controller = loader.getController();
