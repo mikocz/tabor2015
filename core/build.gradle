@@ -2,9 +2,11 @@ version = '1.0'
 
 dependencies{
 
-  //compile group: 'com.h2database', name: 'h2', version: '1.4.187'
+  //compile 'org.hsqldb:hsqldb:2.3.2'
+  compile 'com.h2database:h2:1.4.187'
   compile 'org.apache.commons:commons-dbcp2:2.1'
-  compile 'org.hsqldb:hsqldb:2.3.2'
+  compile 'commons-io:commons-io:2.4'
   compile 'org.mybatis:mybatis:3.2.8'
   compile 'org.mybatis:mybatis-spring:1.2.2'
 }
+

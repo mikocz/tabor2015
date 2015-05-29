@@ -3,8 +3,7 @@ package cz.miko.tabor.core.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import java.util.List;
 
 /**
  * Description
@@ -14,11 +13,11 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Camp extends Entity {
+public class ApplicationDetail extends Application {
 
-	private boolean active;
-	private String name;
-	private BigDecimal price;
-	private Date from;
-	private Date to;
+	private Camp camp;
+	private User user;
+	private List<Payment> payments;
+
+
 }

@@ -4,7 +4,9 @@ import cz.miko.tabor.TaborApp;
 import cz.miko.tabor.config.MainAppHolder;
 import cz.miko.tabor.config.SpringFXMLLoader;
 import javafx.scene.Node;
-import lombok.Data;
+import javafx.scene.control.Alert;
+import javafx.stage.Stage;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -13,9 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Michal Kolesnac, FG Forrest a.s. (c) 2015
  * @version $Id: $
  */
-@Data
 public abstract class AbstractController implements Controller {
 
+	@Setter
 	private Node view;
 
 	@Autowired
@@ -25,8 +27,13 @@ public abstract class AbstractController implements Controller {
 	public Node getView() {
 		if (view == null) {
 			SpringFXMLLoader.load(getFxmlConfig());
+			afterViewInit();
 		}
 		return view;
+	}
+
+	protected void afterViewInit() {
+		// to overwrite
 	}
 
 	protected TaborApp getTaborApp() {
@@ -35,6 +42,22 @@ public abstract class AbstractController implements Controller {
 		}
 		return mainAppHolder.getTaborApp();
 	}
+
+	protected Stage getPrimaryStage() {
+		return getTaborApp().getPrimaryStage();
+	}
+
+	protected void showErrorDialog(String errorMessage) {
+		Alert alert = new Alert(Alert.AlertType.ERROR);
+		alert.initOwner(getPrimaryStage());
+		alert.setTitle("Upozornění!");
+		alert.setHeaderText("Prosím doplňte správná data.");
+		alert.setContentText(errorMessage);
+
+		alert.showAndWait();
+	}
+
+
 
 	protected abstract String getFxmlConfig();
 }

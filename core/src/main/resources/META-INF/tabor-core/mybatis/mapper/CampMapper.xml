@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cz.miko.tabor.core.dao.CampMapper">
+
+
+    <insert id="insertCamp" parameterType="Camp" keyProperty="id">
+        insert into CAMP (NAME, ACTIVE, PRICE) values (#{name}, #{active}, #{price})
+    </insert>
+    
+    <update id="updateCamp" parameterType="Camp">
+        update CAMP
+        set NAME = #{name}, ACTIVE = #{active}, PRICE = #{price}
+        where ID = #{id}
+    </update>
+
+    <update id="setActiveCamp" parameterType="int">
+        update CAMP
+        set ACTIVE = true
+        where ID = #{campId}
+    </update>
+
+    <update id="setDeactiveCampForAllCamps">
+        update CAMP
+        set ACTIVE = false
+    </update>
+
+    <select id="getCamps" resultType="Camp">
+        select * from CAMP c
+    </select>
+
+    <select id="getActiveCamp" resultType="Camp">
+        select *
+        from CAMP c
+        where ACTIVE = 1
+        limit 0,1;
+    </select>
+
+</mapper>

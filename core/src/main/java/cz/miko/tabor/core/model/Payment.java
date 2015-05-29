@@ -21,4 +21,5 @@ public class Payment extends Entity {
 	private String type;
 	private PaymentForm paymentForm;
 	private PaymentType paymentType;
+	private Integer applicationId;
 }

@@ -4,6 +4,8 @@ import cz.miko.tabor.config.MainAppHolder;
 import cz.miko.tabor.config.TaborAppConfig;
 import cz.miko.tabor.controller.MainController;
 import cz.miko.tabor.core.config.TaborCoreConfig;
+import cz.miko.tabor.core.model.Camp;
+import cz.miko.tabor.core.service.CampManager;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
@@ -13,10 +15,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-public class TaborApp extends Application {
+public class TaborApp extends Application  {
 
     public static final ApplicationContext APPLICATION_CONTEXT = new AnnotationConfigApplicationContext(TaborAppConfig.class);
 
@@ -24,12 +27,16 @@ public class TaborApp extends Application {
     private Stage primaryStage;
     @Getter
     private BorderPane rootLayout;
+    @Setter
+    @Getter
+    private Camp activeCamp;
+    @Getter
+    private String applicationTitlePrefix = "Táborová evidence";
 
     @Override
     public void start(Stage primaryStage) throws Exception{
 
         this.primaryStage = primaryStage;
-        primaryStage.setTitle("Táborová evidence");
 
         MainAppHolder mainAppHolder = APPLICATION_CONTEXT.getBean(MainAppHolder.class);
         mainAppHolder.setTaborApp(this);
@@ -49,6 +56,8 @@ public class TaborApp extends Application {
         Screen screen = Screen.getPrimary();
         Rectangle2D bounds = screen.getVisualBounds();
 
+        CampManager campManager = APPLICATION_CONTEXT.getBean(CampManager.class);
+        setApplicationTitle(campManager.getActiveCamp());
         primaryStage.setX(bounds.getMinX());
         primaryStage.setY(bounds.getMinY());
         primaryStage.setWidth(bounds.getWidth());
@@ -68,5 +77,13 @@ public class TaborApp extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public void setApplicationTitle(Camp camp) {
+        if (camp !=null) {
+            getPrimaryStage().setTitle(getApplicationTitlePrefix() + " - " + camp.getName());
+        } else {
+            getPrimaryStage().setTitle(getApplicationTitlePrefix());
+        }
     }
 }

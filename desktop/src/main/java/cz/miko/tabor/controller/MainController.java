@@ -26,21 +26,24 @@ public class MainController extends AbstractController {
 	private PersonalEditorController personalEditorController;
 
 	@Autowired
+	private CampController campController;
+
+	@Autowired
 	private ApplicationOverviewController applicationOverviewController;
 
 	@FXML
 	public void showPersonOverview(ActionEvent actionEvent) {
-		getTaborApp().getRootLayout().setCenter(personController.getView());
+		setViewToRootLayout(personController.getView());
 	}
 
 	@FXML
 	public void showApplicationOverview(ActionEvent actionEvent) {
-		getTaborApp().getRootLayout().setCenter(applicationOverviewController.getView());
+		setViewToRootLayout(applicationOverviewController.getView());
 	}
 
 	@FXML
 	public void showNewPersonEditorDialog(ActionEvent actionEvent) {
-		showPersonEditorDialog(null);
+		showPersonEditorDialog(new User());
 	}
 
 	public boolean showPersonEditorDialog(User person) {
@@ -54,10 +57,13 @@ public class MainController extends AbstractController {
 		// Create the dialog Stage.
 		Stage dialogStage = new Stage();
 		if (person!=null && person.getId()!=null) {
-			dialogStage.setTitle("Editace " + person.getDisplayName());
+			dialogStage.setTitle("Editace osoby " + person.getDisplayName());
+			personalEditorController.getStoreButton().setVisible(false);
 		} else {
 			dialogStage.setTitle("Nová osoba");
+			personalEditorController.getStoreButton().setVisible(true);
 		}
+
 		dialogStage.initModality(Modality.WINDOW_MODAL);
 		dialogStage.initOwner(getTaborApp().getPrimaryStage());
 		Scene scene = new Scene((Parent)personalEditorControllerView);
@@ -70,11 +76,25 @@ public class MainController extends AbstractController {
 
 		scene.getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
 				() -> personalEditorController.getStoreButton().fire());
+
+		scene.setOnKeyPressed(event -> {
+			if (event.getCode() == KeyCode.ESCAPE) {
+				dialogStage.close();
+			}
+		});
 		// Show the dialog and wait until the user closes it
 		dialogStage.showAndWait();
 
 
 		return personalEditorController.isOkClicked();
+	}
+
+	public void showCampOverview(ActionEvent actionEvent) {
+		setViewToRootLayout(campController.getView());
+	}
+
+	private void setViewToRootLayout(Node view) {
+		getTaborApp().getRootLayout().setCenter(view);
 	}
 
 	public void handleAbout(ActionEvent actionEvent) {

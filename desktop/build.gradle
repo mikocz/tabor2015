@@ -5,13 +5,34 @@
 //  mainClass = 'cz.miko.tabor.Main'
 //}
 
+
+plugins {
+  id "de.gliderpilot.jnlp" version "0.2.1"
+}
+
 apply plugin: 'application'
+
 
 version = '1.0'
 
 mainClassName = "cz.miko.tabor.TaborApp"
 
-
 dependencies {
     compile project(':core')
+    //compile 'np.com.ngopal:javafx-autocomplete-field:1.0.0'
+}
+
+
+// JNLP
+
+jnlp {
+    withXml {
+        information {
+            title "Táborová evidence"
+            vendor "Miko"
+        }
+        security {
+            'all-permissions'()
+        }
+    }
 }

@@ -15,10 +15,13 @@
 
     <typeHandlers>
         <typeHandler javaType="java.util.List" handler="org.apache.ibatis.type.ObjectTypeHandler"/>
+        <typeHandler javaType="cz.miko.tabor.core.model.Sex" handler="cz.miko.tabor.core.dao.SexTypeHandler"/>
     </typeHandlers>
 
     <mappers>
         <mapper resource="META-INF/tabor-core/mybatis/mapper/UserMapper.xml"/>
+        <mapper resource="META-INF/tabor-core/mybatis/mapper/CampMapper.xml"/>
+        <mapper resource="META-INF/tabor-core/mybatis/mapper/ApplicationMapper.xml"/>
     </mappers>
 
 </configuration>

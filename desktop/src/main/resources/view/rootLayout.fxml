@@ -29,6 +29,12 @@
                         </MenuItem>
                     </items>
                 </Menu>
+                <Menu mnemonicParsing="false" text="Tábory">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#showCampOverview" text="Přehled táborů">
+                        </MenuItem>
+                    </items>
+                </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#handleAbout" text="About"/>

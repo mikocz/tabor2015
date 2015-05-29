@@ -20,6 +20,7 @@ public class Application extends Entity {
 
 	private Integer campId;
 	private Integer userId;
+	private Integer gangId;
 	private BigDecimal price;
 
 	private String note;

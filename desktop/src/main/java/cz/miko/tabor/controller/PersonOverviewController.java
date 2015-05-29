@@ -1,5 +1,6 @@
 package cz.miko.tabor.controller;
 
+import cz.miko.tabor.core.event.UserCreatedEvent;
 import cz.miko.tabor.core.model.User;
 import cz.miko.tabor.core.service.UserManager;
 import javafx.collections.FXCollections;
@@ -10,18 +11,19 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static cz.miko.tabor.core.service.Java8Utils.toLocalDate;
+import static cz.miko.tabor.core.service.TaborUtils.dateToString;
 
 /**
  * Description
@@ -30,7 +32,7 @@ import static cz.miko.tabor.core.service.Java8Utils.toLocalDate;
  * @version $Id: $
  */
 @Service
-public class PersonOverviewController extends AbstractController {
+public class PersonOverviewController extends AbstractController implements ApplicationListener<UserCreatedEvent> {
 
 	@Autowired
 	private UserManager userManager;
@@ -48,6 +50,8 @@ public class PersonOverviewController extends AbstractController {
 
 	@FXML
 	private TextField filterField;
+
+	private User selectedUser;
 
 	@FXML
 	private Label firstNameLabel;
@@ -74,7 +78,6 @@ public class PersonOverviewController extends AbstractController {
 	private ObservableList<User> allUsersData = FXCollections.observableArrayList();
 	private ObservableList<User> filteredUserData = FXCollections.observableArrayList();
 
-	private DateTimeFormatter myDateFormatter = DateTimeFormatter.ofPattern("dd. MM. yyyy");
 
 	@FXML
 	private void initialize() {
@@ -90,7 +93,7 @@ public class PersonOverviewController extends AbstractController {
 					setStyle("");
 				}
 				else {
-					setText(myDateFormatter.format(toLocalDate(item)));
+					setText(dateToString(item));
 				}
 			}
 		});
@@ -111,22 +114,37 @@ public class PersonOverviewController extends AbstractController {
 		personTable.getSelectionModel().selectedItemProperty().addListener(
 				(observable, oldValue, newValue) -> showPersonDetails(newValue));
 
+		personTable.setRowFactory(tv -> {
+
+			TableRow<User> row = new TableRow<>();
+			row.setOnMouseClicked(event -> {
+				if(event.getClickCount() == 2 && (!row.isEmpty())) {
+					selectedUser = row.getItem();
+					handleEditPerson(null);
+				}
+			});
+			return row;
+		});
+
 		showPersonDetails(null);
 	}
 
 	private void showPersonDetails(User person) {
 		if (person != null) {
 			// Fill the labels with info from the person object.
+			selectedUser = person;
 			firstNameLabel.setText(person.getFirstName());
 			lastNameLabel.setText(person.getLastName());
 			streetLabel.setText(person.getAddress());
 			postalCodeLabel.setText(person.getPostCode());
 			cityLabel.setText(person.getCity());
-			birthdayLabel.setText(myDateFormatter.format(toLocalDate(person.getBirthday())));
+			birthdayLabel.setText(dateToString(person.getBirthday()));
 			phoneLabel.setText(person.getPhone());
 			emailLabel.setText(person.getEmail());
+			noteLabel.setText(person.getNote());
 		} else {
 			// Person is null, remove all the text.
+			selectedUser = null;
 			firstNameLabel.setText("");
 			lastNameLabel.setText("");
 			streetLabel.setText("");
@@ -197,14 +215,42 @@ public class PersonOverviewController extends AbstractController {
 		boolean okClicked = mainController.showPersonEditorDialog(tempPerson);
 		if(okClicked) {
 			allUsersData.add(tempPerson);
+			updateFilteredData();
 		}
 	}
 
 	public void handleEditPerson(ActionEvent actionEvent) {
-
+		if (selectedUser!=null) {
+			mainController.showPersonEditorDialog(selectedUser);
+			showPersonDetails(selectedUser);
+			final int selectedIdx = personTable.getSelectionModel().getSelectedIndex();
+			updateFilteredData();
+			personTable.getSelectionModel().select(selectedIdx);
+		}
 	}
 
 	public void handleDeletePerson(ActionEvent actionEvent) {
+		if (selectedUser!=null) {
+			final int selectedIdx = personTable.getSelectionModel().getSelectedIndex();
 
+			userManager.deleteUserById(selectedUser.getId());
+			allUsersData.remove(selectedUser);
+			filteredUserData.remove(selectedUser);
+
+			if (selectedIdx != -1) {
+				final int newSelectedIdx =
+						(selectedIdx > personTable.getItems().size() - 1)
+								? selectedIdx - 1
+								: selectedIdx;
+				personTable.getSelectionModel().select(newSelectedIdx);
+			}
+		}
 	}
+
+	@Override
+	public void onApplicationEvent(UserCreatedEvent event) {
+		allUsersData.add(event.getUser());
+	}
+
+
 }
