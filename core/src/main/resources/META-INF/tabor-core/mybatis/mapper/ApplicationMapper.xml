@@ -1,38 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cz.miko.tabor.core.dao.CampMapper">
+<mapper namespace="cz.miko.tabor.core.dao.ApplicationMapper">
 
+    <resultMap id="applicationDetailRM" type="ApplicationDetail">
+        <id column="ID" property="a.id"/>
+        <result column="CODE" property="code"/>
+        <result column="PRECODE" property="preCode"/>
+        <result column="CAMPID" property="campId"/>
+        <result column="USERID" property="userId"/>
+        <result column="GANGID" property="gangId"/>
+        <result column="PRICE" property="price"/>
+        <result column="NOTE" property="note"/>
+        <association property="camp" javaType="Camp">
+            <id property="id" column="CAMPID"/>
+            <result property="name" column="NAME"/>
+            <result property="price" column="CAMP_PRICE"/>
+            <result property="active" column="ACTIVE"/>
+        </association>
+        <association property="user" javaType="User">
+            <id property="id" column="USERID"/>
+            <result property="firstName" column="FIRSTNAME"/>
+            <result property="lastName" column="LASTNAME"/>
+            <result property="birthday" column="BIRTHDAY"/>
+            <result property="city" column="CITY"/>
+            <result property="address" column="ADDRESS"/>
+            <result property="postCode" column="POSTCODE"/>
+            <result property="phone" column="PHONE"/>
+            <result property="email" column="EMAIL"/>
+            <result property="sex" column="SEX"/>
+            <result property="note" column="USER_NOTE"/>
+        </association>
+        <collection property="payments" javaType="ArrayList" column="id" ofType="Payment"/>
+    </resultMap>
+    
+    <select id="innerSelectPayments" resultType="Payment">
+      select * from PAYMENTS where APPLICATIONID = #{id}
+    </select>
 
-    <insert id="insertCamp" parameterType="Camp" keyProperty="id">
-        insert into CAMP (NAME, ACTIVE, PRICE) values (#{name}, #{active}, #{price})
+    <insert id="insertApplication" parameterType="Application" keyProperty="id">
+        insert into APPLICATIONS (CODE, PRECODE, CAMPID, USERID, GANGID, PRICE, NOTE)
+        values (#{code}, #{preCode}, #{campId}, #{userId}, #{gangId}, #{price}, #{note})
     </insert>
     
-    <update id="updateCamp" parameterType="Camp">
-        update CAMP
-        set NAME = #{name}, ACTIVE = #{active}, PRICE = #{price}
+    <update id="updateApplication" parameterType="Application">
+        update APPLICATIONS
+        set CODE = #{code}, PRECODE = #{preCode}, CAMPID = #{campId}, USERID = #{userId}
+            , GANGID = #{gangId}, PRICE = #{price}, NOTE = #{note}
         where ID = #{id}
     </update>
 
-    <update id="setActiveCamp" parameterType="int">
-        update CAMP
-        set ACTIVE = true
-        where ID = #{campId}
-    </update>
-
-    <update id="setDeactiveCampForAllCamps">
-        update CAMP
-        set ACTIVE = false
-    </update>
-
-    <select id="getCamps" resultType="Camp">
-        select * from CAMP c
-    </select>
-
-    <select id="getActiveCamp" resultType="Camp">
-        select *
-        from CAMP c
-        where ACTIVE = 1
-        limit 0,1;
+    <select id="getFullApplications" parameterType="map" resultMap="applicationDetailRM">
+        select a.*,
+            c.NAME as NAME,
+            c.PRICE as CAMP_PRICE,
+            c.ACTIVE as ACTIVE,
+            u.FIRSTNAME as FIRSTNAME,
+            u.LASTNAME as LASTNAME,
+            u.BIRTHDAY as BIRTHDAY,
+            u.CITY as CITY,
+            u.ADDRESS as ADDRESS,
+            u.POSTCODE as POSTCODE,
+            u.PHONE as PHONE,
+            u.EMAIL as EMAIL,
+            u.SEX as SEX,
+            u.NOTE as USER_NOTE
+        from APPLICATIONS a
+        JOIN CAMP c on c.ID = a.CAMPID
+        JOIN USERS u on u.ID = a.USERID
+        <where>
+            <if test="applicationId !=null">
+                ID = #{applicationId}
+            </if>
+            <if test="campId !=null">
+                CAMPID = #{campId}
+            </if>
+        </where>
     </select>
 
 </mapper>
