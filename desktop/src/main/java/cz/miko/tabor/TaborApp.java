@@ -11,6 +11,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -27,6 +28,9 @@ public class TaborApp extends Application  {
     private Stage primaryStage;
     @Getter
     private BorderPane rootLayout;
+    @Setter
+    @Getter
+    private ToolBar toolBar;
     @Setter
     @Getter
     private Camp activeCamp;
@@ -57,6 +61,7 @@ public class TaborApp extends Application  {
         Rectangle2D bounds = screen.getVisualBounds();
 
         CampManager campManager = APPLICATION_CONTEXT.getBean(CampManager.class);
+        setActiveCamp(campManager.getActiveCamp());
         setApplicationTitle(campManager.getActiveCamp());
         primaryStage.setX(bounds.getMinX());
         primaryStage.setY(bounds.getMinY());
@@ -69,8 +74,8 @@ public class TaborApp extends Application  {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        // TODO MKO - toto jen pro vyvoj
-        controller.showPersonOverview(null);
+        toolBar = (ToolBar)getPrimaryStage().getScene().lookup("#mainToolBar");
+        controller.showApplicationOverview(null);
 
         return view;
     }

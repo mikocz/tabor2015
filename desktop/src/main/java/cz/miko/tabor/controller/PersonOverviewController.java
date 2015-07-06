@@ -1,21 +1,17 @@
 package cz.miko.tabor.controller;
 
-import cz.miko.tabor.core.event.UserCreatedEvent;
+import cz.miko.tabor.core.model.Entity;
 import cz.miko.tabor.core.model.User;
 import cz.miko.tabor.core.service.UserManager;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -32,13 +28,11 @@ import static cz.miko.tabor.core.service.TaborUtils.dateToString;
  * @version $Id: $
  */
 @Service
-public class PersonOverviewController extends AbstractController implements ApplicationListener<UserCreatedEvent> {
+public class PersonOverviewController extends AbstractOverviewController<User> {
 
 	@Autowired
 	private UserManager userManager;
 
-	@Autowired
-	private MainController mainController;
 
 	@FXML
 	private TableView<User> personTable = new TableView<>();
@@ -50,8 +44,6 @@ public class PersonOverviewController extends AbstractController implements Appl
 
 	@FXML
 	private TextField filterField;
-
-	private User selectedUser;
 
 	@FXML
 	private Label firstNameLabel;
@@ -75,13 +67,11 @@ public class PersonOverviewController extends AbstractController implements Appl
 	private Label sexLabel;
 
 
-	private ObservableList<User> allUsersData = FXCollections.observableArrayList();
-	private ObservableList<User> filteredUserData = FXCollections.observableArrayList();
 
-
+	@Override
 	@FXML
-	private void initialize() {
-
+	protected void initialize() {
+		super.initialize();
 
 		// Custom rendering of the table cell.
 		birthdayColumn.setCellFactory(column -> new TableCell<User, Date>() {
@@ -98,41 +88,34 @@ public class PersonOverviewController extends AbstractController implements Appl
 			}
 		});
 
-		this.allUsersData = FXCollections.observableArrayList(userManager.getUsers());
-		this.filteredUserData.addAll(allUsersData);
-		personTable.setItems(allUsersData);
-
 		// Listen for text changes in the filter text field
 		filterField.textProperty().addListener((observable, oldValue, newValue) -> {
-			updateFilteredData();
-		});
-
-		allUsersData.addListener((ListChangeListener.Change<? extends User> change) -> {
-			updateFilteredData();
-		});
-
-		personTable.getSelectionModel().selectedItemProperty().addListener(
-				(observable, oldValue, newValue) -> showPersonDetails(newValue));
-
-		personTable.setRowFactory(tv -> {
-
-			TableRow<User> row = new TableRow<>();
-			row.setOnMouseClicked(event -> {
-				if(event.getClickCount() == 2 && (!row.isEmpty())) {
-					selectedUser = row.getItem();
-					handleEditPerson(null);
-				}
-			});
-			return row;
+			refreshDataTable();
 		});
 
 		showPersonDetails(null);
 	}
 
+	@Override
+	public List<Node> getToolBarNodes() {
+		ArrayList<Node> buttons = new ArrayList<>();
+
+		buttons.add(getNewButton("Nová kontakt", this::handleNewPerson));
+		buttons.add(getNewButton("Upravit kontakt", this::handleEditPerson));
+		buttons.add(getNewButton("Odstranit kontakt", this::handleDeletePerson));
+
+		return buttons;
+	}
+
+	@Override
+	protected TableView<User> getDataTable() {
+		return this.personTable;
+	}
+
 	private void showPersonDetails(User person) {
 		if (person != null) {
 			// Fill the labels with info from the person object.
-			selectedUser = person;
+			selectedItem = person;
 			firstNameLabel.setText(person.getFirstName());
 			lastNameLabel.setText(person.getLastName());
 			streetLabel.setText(person.getAddress());
@@ -144,7 +127,7 @@ public class PersonOverviewController extends AbstractController implements Appl
 			noteLabel.setText(person.getNote());
 		} else {
 			// Person is null, remove all the text.
-			selectedUser = null;
+			selectedItem = null;
 			firstNameLabel.setText("");
 			lastNameLabel.setText("");
 			streetLabel.setText("");
@@ -156,30 +139,8 @@ public class PersonOverviewController extends AbstractController implements Appl
 		}
 	}
 
-
-	/**
-	 * Updates the filteredData to contain all data from the masterData that
-	 * matches the current filter.
-	 */
-	private void updateFilteredData() {
-
-		filteredUserData.clear();
-
-		List<User> users = this.allUsersData;
-
-		for (User user : users) {
-			if (matchesFilter(user)) {
-				filteredUserData.add(user);
-			}
-		}
-		
-		this.personTable.setItems(filteredUserData);
-
-		// Must re-sort table after items changed
-		reapplyTableSortOrder();
-	}
-
-	private boolean matchesFilter(User user) {
+	@Override
+	protected boolean matchesFilter(User user) {
 		String filterString = filterField.getText();
 		if (filterString == null || filterString.isEmpty()) {
 			// No filter --> Add all.
@@ -197,11 +158,26 @@ public class PersonOverviewController extends AbstractController implements Appl
 		return false; // Does not match
 	}
 
-	private void reapplyTableSortOrder() {
-		ArrayList<TableColumn<User, ?>> sortOrder = new ArrayList<>(personTable.getSortOrder());
-		personTable.getSortOrder().clear();
-		personTable.getSortOrder().addAll(sortOrder);
+	@Override
+	protected void handleEditItem() {
+		handleEditPerson(null);
 	}
+
+	@Override
+	protected void showItemDetails(User item) {
+		showPersonDetails(item);
+	}
+
+	@Override
+	protected List<User> getData() {
+		return userManager.getUsers();
+	}
+
+	@Override
+	protected Class<? extends Entity> getSupportedClass() {
+		return User.class;
+	}
+
 
 	@Override
 	protected String getFxmlConfig() {
@@ -212,45 +188,38 @@ public class PersonOverviewController extends AbstractController implements Appl
 
 		User tempPerson = new User();
 
-		boolean okClicked = mainController.showPersonEditorDialog(tempPerson);
+		boolean okClicked = getMainController().showPersonEditorDialog(tempPerson);
 		if(okClicked) {
-			allUsersData.add(tempPerson);
-			updateFilteredData();
+			allData.add(tempPerson);
+			refreshDataTable();
 		}
 	}
 
 	public void handleEditPerson(ActionEvent actionEvent) {
-		if (selectedUser!=null) {
-			mainController.showPersonEditorDialog(selectedUser);
-			showPersonDetails(selectedUser);
-			final int selectedIdx = personTable.getSelectionModel().getSelectedIndex();
-			updateFilteredData();
-			personTable.getSelectionModel().select(selectedIdx);
+		if (selectedItem!=null) {
+			getMainController().showPersonEditorDialog(selectedItem);
+			showPersonDetails(selectedItem);
+			final int selectedIdx = getDataTable().getSelectionModel().getSelectedIndex();
+			refreshDataTable();
+			getDataTable().getSelectionModel().select(selectedIdx);
 		}
 	}
 
 	public void handleDeletePerson(ActionEvent actionEvent) {
-		if (selectedUser!=null) {
-			final int selectedIdx = personTable.getSelectionModel().getSelectedIndex();
+		if (selectedItem!=null) {
+			final int selectedIdx = getDataTable().getSelectionModel().getSelectedIndex();
 
-			userManager.deleteUserById(selectedUser.getId());
-			allUsersData.remove(selectedUser);
-			filteredUserData.remove(selectedUser);
+			userManager.deleteUserById(selectedItem.getId());
+			allData.remove(selectedItem);
+			filteredData.remove(selectedItem);
 
 			if (selectedIdx != -1) {
 				final int newSelectedIdx =
-						(selectedIdx > personTable.getItems().size() - 1)
+						(selectedIdx > getDataTable().getItems().size() - 1)
 								? selectedIdx - 1
 								: selectedIdx;
-				personTable.getSelectionModel().select(newSelectedIdx);
+				getDataTable().getSelectionModel().select(newSelectedIdx);
 			}
 		}
 	}
-
-	@Override
-	public void onApplicationEvent(UserCreatedEvent event) {
-		allUsersData.add(event.getUser());
-	}
-
-
 }

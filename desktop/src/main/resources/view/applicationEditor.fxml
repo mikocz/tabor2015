@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import np.com.ngopal.control.AutoFillTextBox?>
+<AnchorPane prefHeight="520.0" prefWidth="539.0" styleClass="background" stylesheets="/css/main.css"
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="cz.miko.tabor.controller.ApplicationEditorController">
+    <children>
+        <GridPane fx:id="mainGridPanel"
+                  AnchorPane.leftAnchor="10.0"
+                  AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="218.0" minWidth="10.0" prefWidth="111.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="261.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="30.0" prefHeight="200.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <children>
+                <Label text="Číslo přihl." />
+                <Label text="Před. číslo přihl." GridPane.rowIndex="1"/>
+                <Label text="Účastník" GridPane.rowIndex="2"/>
+                <Label text="Individuální cena" GridPane.rowIndex="3"/>
+                <Label text="Četa" GridPane.rowIndex="4"/>
+                <Label text="Note" GridPane.rowIndex="5"/>
+
+                <TextField fx:id="codeField" GridPane.columnIndex="1"/>
+                <TextField fx:id="preCodeField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <!--<ComboBox fx:id="userComboBox" GridPane.columnIndex="1" GridPane.rowIndex="2"/>-->
+                <TextField fx:id="priceField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                <ComboBox fx:id="gangComboBox" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                <TextArea fx:id="noteField" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+            </children>
+        </GridPane>
+        <ButtonBar layoutX="176.0" layoutY="233.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+            <buttons>
+                <Button fx:id="storeButton" defaultButton="true" mnemonicParsing="false" onAction="#handleOk"
+                        text="Uložit (ctrl+S)"/>
+                <Button defaultButton="false" mnemonicParsing="false" onAction="#handleOkAndClose" text="Uložit a zavřít"/>
+                <Button mnemonicParsing="false" onAction="#handleCancel" prefWidth="120.0" text="Zrušit"/>
+            </buttons>
+        </ButtonBar>
+    </children>
+</AnchorPane>

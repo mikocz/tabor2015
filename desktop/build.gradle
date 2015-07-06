@@ -19,7 +19,7 @@ mainClassName = "cz.miko.tabor.TaborApp"
 
 dependencies {
     compile project(':core')
-    //compile 'np.com.ngopal:javafx-autocomplete-field:1.0.0'
+    compile 'np.com.ngopal:javafx-autocomplete-field:1.0.0'
 }
 
 

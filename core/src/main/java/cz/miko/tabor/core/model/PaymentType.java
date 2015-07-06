@@ -8,5 +8,16 @@ package cz.miko.tabor.core.model;
  */
 public enum PaymentType {
 
-	DEPOSIT,BALANCE_PAYMENT
+	DEPOSIT("záloha"),BALANCE_PAYMENT("doplatek");
+
+	private final String text;
+
+	PaymentType(String text) {
+		this.text = text;
+	}
+
+	@Override
+	public String toString() {
+		return text;
+	}
 }

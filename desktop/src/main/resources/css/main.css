@@ -6,3 +6,7 @@
 .activeCamp {
     -fx-background-color: lightgreen;
 }
+
+.autofill-text {
+    -fx-skin: "np.com.ngopal.control.AutoFillTextBoxSkin";
+}

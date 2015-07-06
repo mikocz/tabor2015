@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cz.miko.tabor.core.dao.GangMapper">
+
+    <insert id="insertGang" parameterType="Gang" keyProperty="id">
+        insert into GANG (NAME, CAMPID) values (#{name}, #{campId})
+    </insert>
+    
+    <update id="updateGang" parameterType="Gang">
+        update GANG
+        set NAME = #{name}
+        where ID = #{id}
+    </update>
+
+    <select id="getGangListByCamp" parameterType="int" resultType="Gang">
+        select * from GANG g where CAMPID = #{campId}
+    </select>
+
+</mapper>

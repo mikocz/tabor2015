@@ -4,6 +4,7 @@ import cz.miko.tabor.core.model.User;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Description
@@ -13,7 +14,7 @@ import java.util.List;
  */
 public interface UserMapper {
 
-	List<User> getUsers();
+	List<User> getUsers(Map<String,Object> params);
 
 	void insertUser(User user);
 

@@ -19,4 +19,5 @@ public interface ApplicationMapper {
 
 	List<ApplicationDetail> getFullApplications(Map<String,Object> params);
 
+	void removeApplication(int applicationId);
 }

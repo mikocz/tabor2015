@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cz.miko.tabor.core.dao.PaymentMapper">
+
+    <insert id="insertPayment" parameterType="Payment" keyProperty="id">
+        insert into PAYMENTS (AMOUNT,PAYMENTDATE,PAYMENTFORM,PAYMENTTYPE,APPLICATIONID,TYPE)
+        values (#{amount},#{paymentDate},#{paymentForm},#{paymentType},#{applicationId},#{type})
+
+    </insert>
+    
+    <update id="updatePayment" parameterType="Payment">
+        update PAYMENTS set AMOUNT = #{amount},PAYMENTDATE = #{paymentDate},
+            PAYMENTFORM = #{paymentForm},PAYMENTTYPE = #{paymentType},APPLICATIONID = #{applicationId},TYPE = #{type}
+          where id = #{id}
+    </update>
+
+    <delete id="deletePaymentById" parameterType="int">
+        delete from PAYMENTS where id = #{id}
+    </delete>
+
+    <delete id="removePaymentByApplicationId" parameterType="int">
+        DELETE FROM PAYMENTS WHERE APPLICATIONID = #{applicationId}
+    </delete>
+
+
+
+</mapper>

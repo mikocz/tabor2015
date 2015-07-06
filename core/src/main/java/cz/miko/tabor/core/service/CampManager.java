@@ -1,7 +1,8 @@
 package cz.miko.tabor.core.service;
 
 import cz.miko.tabor.core.dao.CampMapper;
-import cz.miko.tabor.core.event.CampActiveEvent;
+import cz.miko.tabor.core.event.CrudOperation;
+import cz.miko.tabor.core.event.EntityUpdateEvent;
 import cz.miko.tabor.core.model.Camp;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -43,7 +44,7 @@ public class CampManager implements ApplicationEventPublisherAware {
 	public void setActiveCamp(Camp camp) {
 		campMapper.setDeactiveCampForAllCamps();
 		campMapper.setActiveCamp(camp.getId());
-		applicationEventPublisher.publishEvent(new CampActiveEvent(this,camp));
+		applicationEventPublisher.publishEvent(new EntityUpdateEvent(this,Camp.class, CrudOperation.ACTIVE, camp));
 	}
 
 	public List<Camp> getCamps() {

@@ -4,6 +4,7 @@ import cz.miko.tabor.core.service.TaborUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.text.Collator;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -16,7 +17,7 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class User extends Entity {
+public class User extends Entity implements Comparable<User> {
 
 	private String firstName;
 	private String lastName;
@@ -41,5 +42,11 @@ public class User extends Entity {
 
 	public String getDisplayName() {
 		return firstName + " " + lastName;
+	}
+
+	@Override
+	public int compareTo(User o) {
+		Collator myCollator = Collator.getInstance();
+		return myCollator.compare(this.getLastName(), o.getLastName());
 	}
 }

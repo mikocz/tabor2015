@@ -86,13 +86,6 @@
                                 <RowConstraints />
                             </rowConstraints>
                         </GridPane>
-                        <ButtonBar layoutX="54.0" layoutY="250.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
-                            <buttons>
-                                <Button mnemonicParsing="false" onAction="#handleNewPerson" text="Nový záznam" />
-                                <Button mnemonicParsing="false" onAction="#handleEditPerson" text="Upravit záznam" />
-                                <Button minWidth="66.0" mnemonicParsing="false" onAction="#handleDeletePerson" prefHeight="33.0" prefWidth="120.0" text="Odstranit" />
-                            </buttons>
-                        </ButtonBar>
                     </children>
                 </AnchorPane>
             </items>

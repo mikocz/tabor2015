@@ -16,12 +16,16 @@
     <typeHandlers>
         <typeHandler javaType="java.util.List" handler="org.apache.ibatis.type.ObjectTypeHandler"/>
         <typeHandler javaType="cz.miko.tabor.core.model.Sex" handler="cz.miko.tabor.core.dao.SexTypeHandler"/>
+        <typeHandler javaType="cz.miko.tabor.core.model.PaymentForm" handler="cz.miko.tabor.core.dao.PaymentFormHandler"/>
+        <typeHandler javaType="cz.miko.tabor.core.model.PaymentType" handler="cz.miko.tabor.core.dao.PaymentTypeHandler"/>
     </typeHandlers>
 
     <mappers>
         <mapper resource="META-INF/tabor-core/mybatis/mapper/UserMapper.xml"/>
         <mapper resource="META-INF/tabor-core/mybatis/mapper/CampMapper.xml"/>
         <mapper resource="META-INF/tabor-core/mybatis/mapper/ApplicationMapper.xml"/>
+        <mapper resource="META-INF/tabor-core/mybatis/mapper/GangMapper.xml"/>
+        <mapper resource="META-INF/tabor-core/mybatis/mapper/PaymentMapper.xml"/>
     </mappers>
 
 </configuration>

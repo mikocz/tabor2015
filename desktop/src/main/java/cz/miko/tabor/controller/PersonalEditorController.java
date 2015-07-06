@@ -174,6 +174,5 @@ public class PersonalEditorController extends AbstractController {
 		dialogStage.close();
 		this.setDialogStage(null);
 		this.setUser(null);
-
 	}
 }

@@ -3,7 +3,7 @@
 <mapper namespace="cz.miko.tabor.core.dao.ApplicationMapper">
 
     <resultMap id="applicationDetailRM" type="ApplicationDetail">
-        <id column="ID" property="a.id"/>
+        <id column="ID" property="id"/>
         <result column="CODE" property="code"/>
         <result column="PRECODE" property="preCode"/>
         <result column="CAMPID" property="campId"/>
@@ -30,7 +30,12 @@
             <result property="sex" column="SEX"/>
             <result property="note" column="USER_NOTE"/>
         </association>
-        <collection property="payments" javaType="ArrayList" column="id" ofType="Payment"/>
+        <association property="gang" javaType="GANG">
+            <id property="id" column="GANGID"/>
+            <result property="name" column="GANG_NAME"/>
+            <result property="campId" column="CAMPID"/>
+        </association>
+        <collection property="payments" javaType="ArrayList" column="id" ofType="Payment" select="innerSelectPayments"/>
     </resultMap>
     
     <select id="innerSelectPayments" resultType="Payment">
@@ -49,8 +54,19 @@
         where ID = #{id}
     </update>
 
+    <delete id="removeApplication" parameterType="int">
+        DELETE FROM APPLICATIONS WHERE ID = #{id}
+    </delete>
+
     <select id="getFullApplications" parameterType="map" resultMap="applicationDetailRM">
-        select a.*,
+        select a.ID as ID,
+            a.CODE,
+            a.PRECODE,
+            a.CAMPID,
+            a.GANGID,
+            a.NOTE,
+            a.PRICE,
+            a.USERID,
             c.NAME as NAME,
             c.PRICE as CAMP_PRICE,
             c.ACTIVE as ACTIVE,
@@ -63,16 +79,18 @@
             u.PHONE as PHONE,
             u.EMAIL as EMAIL,
             u.SEX as SEX,
-            u.NOTE as USER_NOTE
+            u.NOTE as USER_NOTE,
+            g.NAME as GANG_NAME
         from APPLICATIONS a
         JOIN CAMP c on c.ID = a.CAMPID
         JOIN USERS u on u.ID = a.USERID
+        LEFT JOIN GANG g on a.GANGID = g.ID
         <where>
             <if test="applicationId !=null">
-                ID = #{applicationId}
+                a.ID = #{applicationId}
             </if>
             <if test="campId !=null">
-                CAMPID = #{campId}
+                a.CAMPID = #{campId}
             </if>
         </where>
     </select>

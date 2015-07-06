@@ -38,8 +38,6 @@ public class TaborCoreConfig {
 	public DataSource dataSource() {
 
 		BasicDataSource dataSource = new BasicDataSource();
-		//dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
-		//dataSource.setUrl("jdbc:hsqldb:file://www/mk/tabor2015/data/tabor");
 		dataSource.setDriverClassName("org.h2.Driver");
 		// TODO MKO load from config
 		dataSource.setUrl("jdbc:h2:file:" + getDataDir() + "taborDb");

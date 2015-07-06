@@ -8,5 +8,16 @@ package cz.miko.tabor.core.model;
  */
 public enum PaymentForm {
 
-	CASH,TRANSFER
+	CASH("hotově"),TRANSFER("převodem");
+
+	private final String text;
+
+	PaymentForm(String text) {
+		this.text = text;
+	}
+
+	@Override
+	public String toString() {
+		return text;
+	}
 }

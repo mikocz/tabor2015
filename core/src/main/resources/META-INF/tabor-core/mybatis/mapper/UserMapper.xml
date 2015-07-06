@@ -15,8 +15,14 @@
           where id = #{id}
     </update>
 
-    <select id="getUsers" resultType="User">
+    <select id="getUsers" resultType="User" parameterType="hashmap">
         select u.* from USERS u
+        <if test="orderBy!=null">
+            <if test="orderBy == 'LASTNAME'">
+              ORDER BY LASTNAME
+            </if>
+            ASC
+        </if>
     </select>
 
     <delete id="deleteUserById" parameterType="int">

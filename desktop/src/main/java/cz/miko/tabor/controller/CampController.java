@@ -1,6 +1,7 @@
 package cz.miko.tabor.controller;
 
 import cz.miko.tabor.core.model.Camp;
+import cz.miko.tabor.core.model.Entity;
 import cz.miko.tabor.core.service.CampManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.List;
 
 
 /**
@@ -24,7 +26,7 @@ import java.util.Collections;
  * @version $Id: $
  */
 @Service
-public class CampController extends AbstractController {
+public class CampController extends AbstractOverviewController<Camp> {
 
 	@Autowired
 	private CampManager campManager;
@@ -42,12 +44,9 @@ public class CampController extends AbstractController {
 
 
 	@FXML
-	private void initialize() {
+	protected void initialize() {
 
-		loadCamps();
-
-		campTable.getSelectionModel().selectedItemProperty().addListener(
-				(observable, oldValue, newValue) -> showCampDetails(newValue));
+		super.initialize();
 
 		campTable.setRowFactory(tv -> {
 			TableRow<Camp> row = new TableRow<Camp>() {
@@ -66,6 +65,36 @@ public class CampController extends AbstractController {
 			return row;
 		});
 
+	}
+
+	@Override
+	protected TableView getDataTable() {
+		return campTable;
+	}
+
+	@Override
+	protected boolean matchesFilter(Camp item) {
+		return true;
+	}
+
+	@Override
+	protected void handleEditItem() {
+		// do nothing
+	}
+
+	@Override
+	protected void showItemDetails(Camp item) {
+		showCampDetails(item);
+	}
+
+	@Override
+	protected List getData() {
+		return campManager.getCamps();
+	}
+
+	@Override
+	protected Class<? extends Entity> getSupportedClass() {
+		return Camp.class;
 	}
 
 	private void loadCamps() {
