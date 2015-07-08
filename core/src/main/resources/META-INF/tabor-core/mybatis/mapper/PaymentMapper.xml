@@ -22,6 +22,10 @@
         DELETE FROM PAYMENTS WHERE APPLICATIONID = #{applicationId}
     </delete>
 
+    <delete id="removePaymentById" parameterType="int">
+        DELETE FROM PAYMENTS WHERE ID = #{id}
+    </delete>
+
 
 
 </mapper>

@@ -82,6 +82,11 @@ public class ApplicationManager extends AbstractManager  {
 	public void removeApplication(ApplicationDetail application) {
 		paymentMapper.removePaymentByApplicationId(application.getId());
 		applicationMapper.removeApplication(application.getId());
+		getApplicationEventPublisher().publishEvent(new EntityUpdateEvent(this,Application.class,CrudOperation.DELETE,null));
+	}
+
+	public void removePayment(Payment payment) {
+		paymentMapper.removePaymentById(payment.getId());
 		getApplicationEventPublisher().publishEvent(new EntityUpdateEvent(this,Payment.class,CrudOperation.DELETE,null));
 	}
 }

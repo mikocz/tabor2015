@@ -7,12 +7,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -122,5 +124,15 @@ public class GangController extends AbstractOverviewController<Gang> {
 	public void setNewGang(ActionEvent actionEvent) {
 		selectedGang = null;
 		nameTextField.setText("");
+	}
+
+	@Override
+	public List<Node> getToolBarNodes() {
+		ArrayList<Node> buttons = new ArrayList<>();
+
+		buttons.add(getNewButton("Nová četa", this::setNewGang));
+		buttons.add(getNewButton("Uložit četu", this::storeGang));
+
+		return buttons;
 	}
 }

@@ -106,7 +106,10 @@ public class TaborCoreConfig {
 
 			Integer usersCount = jdbcTemplate.queryForObject("select count(id) from USERS", Integer.class);
 			if (usersCount < 1) {
-				ScriptUtils.executeSqlScript(jdbcTemplate.getDataSource().getConnection(), new FileSystemResource(getDataDir()+"initData.sql"));
+				FileSystemResource resource = new FileSystemResource(getDataDir() + "initData.sql");
+				if (resource.exists()) {
+					ScriptUtils.executeSqlScript(jdbcTemplate.getDataSource().getConnection(), resource);
+				}
 			}
 		}
 		catch(Exception e) {

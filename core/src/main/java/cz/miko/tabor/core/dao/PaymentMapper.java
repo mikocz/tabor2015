@@ -20,4 +20,5 @@ public interface PaymentMapper {
 	List<Payment> getPaymentsByMap(Map<String,Object> params);
 
 	void removePaymentByApplicationId(Integer applicationId);
+	void removePaymentById(Integer id);
 }

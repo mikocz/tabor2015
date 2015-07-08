@@ -1,17 +1,26 @@
-//apply from: 'http://dl.bintray.com/content/shemnon/javafx-gradle/javafx.plugin'
-//apply from: 'javafx.plugin'
-//
-//javafx {
-//  mainClass = 'cz.miko.tabor.Main'
+//plugins {
+//    id "edu.sc.seis.launch4j" version "1.1.2"
 //}
-
-
-plugins {
-  id "de.gliderpilot.jnlp" version "0.2.1"
-}
 
 apply plugin: 'application'
 
+////// Tato nejak nefunguje,
+//apply from: 'javafx.plugin'
+
+
+//javafx {
+//    appName = 'tabor'
+//    mainClass = 'cz.miko.tabor.TaborApp'
+//    verbose = false;
+//}
+
+
+// sicetoto vygeruje exe, ale nelze ho ve win spustit
+//launch4j {
+//    mainClassName = "cz.miko.tabor.TaborApp"
+//    jar="lib/desktop-1.0.jar"
+//}
+///////////////
 
 version = '1.0'
 
@@ -19,20 +28,4 @@ mainClassName = "cz.miko.tabor.TaborApp"
 
 dependencies {
     compile project(':core')
-    compile 'np.com.ngopal:javafx-autocomplete-field:1.0.0'
-}
-
-
-// JNLP
-
-jnlp {
-    withXml {
-        information {
-            title "Táborová evidence"
-            vendor "Miko"
-        }
-        security {
-            'all-permissions'()
-        }
-    }
 }

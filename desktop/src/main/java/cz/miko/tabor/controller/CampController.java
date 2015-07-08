@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -117,6 +119,17 @@ public class CampController extends AbstractOverviewController<Camp> {
 			nameTextField.setText("");
 			priceTextField.setText("");
 		}
+	}
+
+	@Override
+	public List<Node> getToolBarNodes() {
+		ArrayList<Node> buttons = new ArrayList<>();
+
+		buttons.add(getNewButton("Nový tábor", this::setNewCamp));
+		buttons.add(getNewButton("Uložit změny", this::storeCamp));
+		buttons.add(getNewButton("Nastav jako hlavní", this::setActiveCamp));
+
+		return buttons;
 	}
 
 

@@ -3,6 +3,7 @@ package cz.miko.tabor.controller;
 import cz.miko.tabor.core.model.Entity;
 import cz.miko.tabor.core.model.User;
 import cz.miko.tabor.core.service.UserManager;
+import javafx.embed.swing.JFXPanel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -66,7 +67,9 @@ public class PersonOverviewController extends AbstractOverviewController<User> {
 	@FXML
 	private Label sexLabel;
 
-
+	public PersonOverviewController() {
+		new JFXPanel();
+	}
 
 	@Override
 	@FXML

@@ -7,6 +7,7 @@ import cz.miko.tabor.core.config.TaborCoreConfig;
 import cz.miko.tabor.core.model.Camp;
 import cz.miko.tabor.core.service.CampManager;
 import javafx.application.Application;
+import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -22,7 +23,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class TaborApp extends Application  {
 
-    public static final ApplicationContext APPLICATION_CONTEXT = new AnnotationConfigApplicationContext(TaborAppConfig.class);
+    public static ApplicationContext APPLICATION_CONTEXT;
 
     @Getter
     private Stage primaryStage;
@@ -37,8 +38,15 @@ public class TaborApp extends Application  {
     @Getter
     private String applicationTitlePrefix = "Táborová evidence";
 
+    public TaborApp() {
+        new JFXPanel();
+        APPLICATION_CONTEXT  = new AnnotationConfigApplicationContext(TaborAppConfig.class);
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception{
+
+        new JFXPanel();
 
         this.primaryStage = primaryStage;
 
@@ -75,12 +83,17 @@ public class TaborApp extends Application  {
         primaryStage.show();
 
         toolBar = (ToolBar)getPrimaryStage().getScene().lookup("#mainToolBar");
-        controller.showApplicationOverview(null);
+        if (getActiveCamp()!=null) {
+            controller.showApplicationOverview(null);
+        } else {
+            controller.showCampOverview(null);
+        }
 
         return view;
     }
 
     public static void main(String[] args) {
+        new JFXPanel();
         launch(args);
     }
 

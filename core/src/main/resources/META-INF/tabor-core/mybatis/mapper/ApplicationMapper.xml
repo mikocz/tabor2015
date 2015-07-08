@@ -33,7 +33,7 @@
         <association property="gang" javaType="GANG">
             <id property="id" column="GANGID"/>
             <result property="name" column="GANG_NAME"/>
-            <result property="campId" column="CAMPID"/>
+            <result property="campId" column="GANG_CAMPID"/>
         </association>
         <collection property="payments" javaType="ArrayList" column="id" ofType="Payment" select="innerSelectPayments"/>
     </resultMap>
@@ -80,7 +80,8 @@
             u.EMAIL as EMAIL,
             u.SEX as SEX,
             u.NOTE as USER_NOTE,
-            g.NAME as GANG_NAME
+            g.NAME as GANG_NAME,
+            g.CAMPID as GANG_CAMPID
         from APPLICATIONS a
         JOIN CAMP c on c.ID = a.CAMPID
         JOIN USERS u on u.ID = a.USERID

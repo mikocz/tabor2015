@@ -31,6 +31,27 @@ public class ApplicationDetail extends Application {
 		return getCamp().getPrice();
 	}
 
+	public BigDecimal getPaid() {
+		BigDecimal result = BigDecimal.ZERO;
+		if (payments!=null) {
+			for(Payment payment : payments) {
+				result = result.add(payment.getAmount());
+			}
+		}
+		return result;
+	}
+
+	public boolean isApplicationPaid() {
+		return getIndividualPriceOrCampPrice().compareTo(getPaid()) < 1;
+	}
+
+	public String getGangName() {
+		if (gang == null) {
+			return null;
+		}
+		return gang.getName();
+	}
+
 	public String getFirstName() {
 		return getUser().getFirstName();
 	}

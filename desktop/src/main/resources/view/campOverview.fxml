@@ -51,13 +51,6 @@
                                 <RowConstraints />
                             </rowConstraints>
                         </GridPane>
-                        <ButtonBar layoutX="54.0" layoutY="250.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
-                            <buttons>
-                                <Button mnemonicParsing="false" onAction="#setNewCamp" text="Nový záznam" />
-                                <Button mnemonicParsing="false" onAction="#storeCamp" text="Uložit změny" />
-                                <Button minWidth="66.0" mnemonicParsing="false" onAction="#setActiveCamp" prefHeight="33.0" prefWidth="120.0" text="Nastavit jako aktivní" />
-                            </buttons>
-                        </ButtonBar>
                     </children>
                 </AnchorPane>
             </items>
