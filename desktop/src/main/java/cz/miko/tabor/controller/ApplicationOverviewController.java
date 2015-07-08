@@ -7,6 +7,7 @@ import cz.miko.tabor.core.model.Entity;
 import cz.miko.tabor.core.model.Gang;
 import cz.miko.tabor.core.model.Payment;
 import cz.miko.tabor.core.service.ApplicationManager;
+import cz.miko.tabor.report.ApplicationJRDataSource;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,15 +17,22 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -356,7 +364,8 @@ public class ApplicationOverviewController extends AbstractOverviewController<Ap
 		buttons.add(getNewButton("Upravit přihlášku", this::handleEditApplication));
 		buttons.add(getNewButton("Nová platba", this::handleNewPayment));
 		buttons.add(getNewButton("Odstranit přihlášku", this::handleDeleteApplication));
-		buttons.add(getNewButton("Export to CSV", this::handleExportToCsv));
+		buttons.add(getNewButton("Export do CSV", this::handleExportToCsv));
+		buttons.add(getNewButton("Export reportu do PDF", this::exportToJasperReport));
 
 		return buttons;
 	}
@@ -414,6 +423,29 @@ public class ApplicationOverviewController extends AbstractOverviewController<Ap
 	private void handleNewPayment(ActionEvent actionEvent) {
 		if (selectedItem!=null){
 			getMainController().showPaymentEditorDialog(selectedItem,null);
+		}
+	}
+
+	public void exportToJasperReport(ActionEvent actionEvent) {
+		try {
+
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Vyberte report");
+			fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JRXML", "*.jrxml"));
+			File reportFile = fileChooser.showOpenDialog(getPrimaryStage());
+
+			JasperPrint jasperPrint = JasperFillManager.fillReport(JasperCompileManager.compileReport(new FileInputStream(reportFile)),
+					new HashMap(),
+					new ApplicationJRDataSource(getDataTable().getItems()));
+
+			FileChooser saveChooser = new FileChooser();
+			saveChooser.setTitle("Export");
+			saveChooser.setInitialFileName(FilenameUtils.getBaseName(reportFile.getName())+".pdf");
+			File file = saveChooser.showSaveDialog(getPrimaryStage());
+
+			JasperExportManager.exportReportToPdfFile(jasperPrint, file.getAbsolutePath());
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 

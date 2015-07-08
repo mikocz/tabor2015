@@ -28,4 +28,5 @@ mainClassName = "cz.miko.tabor.TaborApp"
 
 dependencies {
     compile project(':core')
+    compile 'net.sf.jasperreports:jasperreports:6.1.0'
 }

@@ -52,6 +52,10 @@ public class ApplicationDetail extends Application {
 		return gang.getName();
 	}
 
+	public String getFullUserName() {
+		return getFirstName() + " " + getLastName();
+	}
+
 	public String getFirstName() {
 		return getUser().getFirstName();
 	}
