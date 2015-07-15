@@ -96,4 +96,13 @@
         </where>
     </select>
 
+    <select id="getApplicationCount" resultType="int">
+        select count(a.ID) from APPLICATIONS a
+        JOIN USERS u on u.ID = a.USERID
+        WHERE CAMPID = #{campId}
+        <if test="sex!=null">
+            and u.SEX = #{sex}
+        </if>
+    </select>
+
 </mapper>

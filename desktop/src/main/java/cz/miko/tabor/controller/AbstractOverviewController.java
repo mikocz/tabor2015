@@ -58,6 +58,10 @@ public abstract class AbstractOverviewController<T> extends AbstractController<T
 			return row;
 		});
 
+		if (!getDataTable().getItems().isEmpty()) {
+			getDataTable().getSelectionModel().select(0);
+		}
+
 		allData.addListener((ListChangeListener.Change<? extends T> change) -> {
 			refreshDataTable();
 		});

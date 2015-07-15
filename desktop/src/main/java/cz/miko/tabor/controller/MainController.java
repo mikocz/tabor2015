@@ -1,6 +1,7 @@
 package cz.miko.tabor.controller;
 
 import cz.miko.tabor.core.model.Application;
+import cz.miko.tabor.core.model.Camp;
 import cz.miko.tabor.core.model.Payment;
 import cz.miko.tabor.core.model.User;
 import javafx.event.ActionEvent;
@@ -34,10 +35,13 @@ public class MainController extends AbstractController {
 	private ApplicationEditorController applicationEditorController;
 
 	@Autowired
+	private CampEditorController campEditorController;
+
+	@Autowired
 	private ApplicationPaymentController applicationPaymentController;
 
 	@Autowired
-	private CampController campController;
+	private CampOverviewController campController;
 
 	@Autowired
 	private GangController gangController;
@@ -105,6 +109,43 @@ public class MainController extends AbstractController {
 
 	public void showNewApplicationEditorDialog(ActionEvent actionEvent) {
 		showApplicationEditorDialog(null);
+	}
+
+	public void showCampEditorDialog(Camp camp) {
+		Node campEditorControllerView = campEditorController.getView();
+		if (campEditorControllerView.getScene()!=null) {
+			campEditorControllerView.getScene().setRoot(new Region());
+		}
+		campEditorController.setCamp(camp);
+
+		// Create the dialog Stage.
+		Stage dialogStage = new Stage();
+		if (camp!=null && camp.getId()!=null) {
+			dialogStage.setTitle("Editace táborů " + camp.getName());
+		} else {
+			dialogStage.setTitle("Nový tábor");
+		}
+
+		dialogStage.initModality(Modality.WINDOW_MODAL);
+		dialogStage.initOwner(getTaborApp().getPrimaryStage());
+		Scene scene = new Scene((Parent)campEditorControllerView);
+		dialogStage.setScene(scene);
+
+		campEditorController.setDialogStage(dialogStage);
+
+		// Set the dialog icon.
+		dialogStage.getIcons().add(new Image("file:resources/images/edit.png"));
+
+		scene.getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
+				() -> campEditorController.getStoreButton().fire());
+
+		scene.setOnKeyPressed(event -> {
+			if (event.getCode() == KeyCode.ESCAPE) {
+				dialogStage.close();
+			}
+		});
+		// Show the dialog and wait until the user closes it
+		dialogStage.showAndWait();
 	}
 
 	public void showApplicationEditorDialog(Application application) {

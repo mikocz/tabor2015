@@ -3,6 +3,7 @@ package cz.miko.tabor.controller;
 import cz.miko.tabor.core.event.EntityUpdateEvent;
 import cz.miko.tabor.core.model.Application;
 import cz.miko.tabor.core.model.ApplicationDetail;
+import cz.miko.tabor.core.model.CampSummary;
 import cz.miko.tabor.core.model.Entity;
 import cz.miko.tabor.core.model.Gang;
 import cz.miko.tabor.core.model.Payment;
@@ -46,6 +47,21 @@ import static cz.miko.tabor.core.service.TaborUtils.dateToString;
  */
 @Service
 public class ApplicationOverviewController extends AbstractOverviewController<ApplicationDetail> {
+
+	@FXML
+	public Label applicationCountLabel;
+	@FXML
+	public Label applicationPaidLabel;
+	@FXML
+	public Label applicationGirlCountLabel;
+	@FXML
+	public Label applicationBoyCountLabel;
+	@FXML
+	public Label paymentTotalLabel;
+	@FXML
+	public Label paymentCashTotalLabel;
+	@FXML
+	public Label paymentTransferTotalLabel;
 
 	@Autowired
 	private ApplicationManager applicationManager;
@@ -106,9 +122,7 @@ public class ApplicationOverviewController extends AbstractOverviewController<Ap
 	@Override
 	protected void initialize() {
 		super.initialize();
-		if (!applicationTable.getItems().isEmpty()) {
-			applicationTable.getSelectionModel().select(0);
-		}
+
 		// Custom rendering of the table cell.
 		birthdayColumn.setCellFactory(column -> new TableCell<ApplicationDetail, Date>() {
 			@Override
@@ -325,6 +339,23 @@ public class ApplicationOverviewController extends AbstractOverviewController<Ap
 		phoneLabel.setText(application.getPhone());
 		emailLabel.setText(application.getEmail());
 		noteLabel.setText(application.getNote());
+
+
+		CampSummary campSummary = applicationManager.getCampSummary(application.getCampId());
+		applicationCountLabel.setText(String.valueOf(campSummary.getApplicationCount()));
+		applicationBoyCountLabel.setText(String.valueOf(campSummary.getApplicationBoyCount()));
+		applicationGirlCountLabel.setText(String.valueOf(campSummary.getApplicationGirlCount()));
+		applicationPaidLabel.setText(String.valueOf(campSummary.getApplicationPaidCount()));
+		if (campSummary.getPaymentTotal()!=null) {
+			paymentTotalLabel.setText(campSummary.getPaymentTotal().toString());
+		}
+		if (campSummary.getPaymentCashTotal()!=null) {
+			paymentCashTotalLabel.setText(campSummary.getPaymentCashTotal().toString());
+		}
+		if (campSummary.getPaymentTransferTotal()!=null) {
+			paymentTransferTotalLabel.setText(campSummary.getPaymentTransferTotal().toString());
+		}
+
 		if (application.getGang()!=null){
 			gangLabel.setText(application.getGang().getName());
 		} else {

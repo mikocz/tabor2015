@@ -1,7 +1,12 @@
 package cz.miko.tabor.core.dao;
 
 import cz.miko.tabor.core.model.Payment;
+import cz.miko.tabor.core.model.PaymentForm;
+import org.apache.ibatis.annotations.Param;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -21,4 +26,6 @@ public interface PaymentMapper {
 
 	void removePaymentByApplicationId(Integer applicationId);
 	void removePaymentById(Integer id);
+
+	BigDecimal getPaymentTotal(@NotNull @Param("campId") Integer campId, @Nullable @Param("paymentForm") PaymentForm paymentForm);
 }

@@ -9,7 +9,7 @@
             xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="cz.miko.tabor.controller.PersonalEditorController">
     <children>
-        <GridPane AnchorPane.leftAnchor="10.0"
+        <GridPane styleClass="grid" AnchorPane.leftAnchor="10.0"
                   AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="218.0" minWidth="10.0" prefWidth="111.0"/>
@@ -68,14 +68,15 @@
 
                 <TextField fx:id="phoneField" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
                 <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
-                <TextArea fx:id="noteField" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                <TextArea fx:id="noteField" GridPane.columnIndex="1" GridPane.rowIndex="9"/>
             </children>
         </GridPane>
         <ButtonBar layoutX="176.0" layoutY="233.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
             <buttons>
                 <Button fx:id="storeButton" defaultButton="true" mnemonicParsing="false" onAction="#handleOk"
                         text="Uložit (ctrl+S)"/>
-                <Button defaultButton="false" mnemonicParsing="false" onAction="#handleOkAndClose" text="Uložit a zavřít"/>
+                <Button defaultButton="false" mnemonicParsing="false" onAction="#handleOkAndClose"
+                        text="Uložit a zavřít"/>
                 <Button mnemonicParsing="false" onAction="#handleCancel" prefWidth="120.0" text="Zrušit"/>
             </buttons>
         </ButtonBar>

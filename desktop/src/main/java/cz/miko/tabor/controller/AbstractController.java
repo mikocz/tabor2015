@@ -32,10 +32,8 @@ public abstract class AbstractController<T> implements Controller {
 
 	@Override
 	public Node getView() {
-		if (view == null) {
-			SpringFXMLLoader.load(getFxmlConfig());
-			afterViewInit();
-		}
+		SpringFXMLLoader.load(getFxmlConfig());
+		afterViewInit();
 		return view;
 	}
 

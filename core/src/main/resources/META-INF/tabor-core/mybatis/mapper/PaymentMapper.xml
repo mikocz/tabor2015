@@ -26,6 +26,15 @@
         DELETE FROM PAYMENTS WHERE ID = #{id}
     </delete>
 
+    <select id="getPaymentTotal" resultType="bigDecimal">
+        SELECT SUM(AMOUNT) FROM PAYMENTS p
+            JOIN APPLICATIONS a on p.APPLICATIONID = a.ID
+        WHERE a.CAMPID = #{campId}
+        <if test="paymentForm !=null">
+            and p.PAYMENTFORM = #{paymentForm}
+        </if>
+    </select>
+
 
 
 </mapper>

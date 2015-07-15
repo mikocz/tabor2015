@@ -29,4 +29,7 @@ mainClassName = "cz.miko.tabor.TaborApp"
 dependencies {
     compile project(':core')
     compile 'net.sf.jasperreports:jasperreports:6.1.0'
+    compile 'com.guigarage:flatter:0.7'
+    compile 'com.aquafx-project:aquafx:0.1'
+    compile 'org.aerofx:aerofx:0.2'
 }

@@ -3,12 +3,15 @@ package cz.miko.tabor.core.service;
 import cz.miko.tabor.core.dao.ApplicationMapper;
 import cz.miko.tabor.core.dao.GangMapper;
 import cz.miko.tabor.core.dao.PaymentMapper;
+import cz.miko.tabor.core.model.CampSummary;
 import cz.miko.tabor.core.event.CrudOperation;
 import cz.miko.tabor.core.event.EntityUpdateEvent;
 import cz.miko.tabor.core.model.Application;
 import cz.miko.tabor.core.model.ApplicationDetail;
 import cz.miko.tabor.core.model.Gang;
 import cz.miko.tabor.core.model.Payment;
+import cz.miko.tabor.core.model.PaymentForm;
+import cz.miko.tabor.core.model.Sex;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -77,6 +80,26 @@ public class ApplicationManager extends AbstractManager  {
 	public Application getApplicationByCampAndCode(Integer campId, String code) {
 		// TODO MKO
 		return null;
+	}
+
+	public CampSummary getCampSummary(Integer campId) {
+		CampSummary result = new CampSummary();
+		result.setApplicationCount(applicationMapper.getApplicationCount(campId, null));
+		result.setApplicationGirlCount(applicationMapper.getApplicationCount(campId, Sex.FEMALE));
+		result.setApplicationBoyCount(applicationMapper.getApplicationCount(campId, Sex.MALE));
+		// TODO MKO - udelam efektivneji
+		List<ApplicationDetail> applicationDetailForActualCamp = getApplicationDetailForActualCamp(campId);
+		Integer paid = 0;
+		for(ApplicationDetail applicationDetail : applicationDetailForActualCamp) {
+			if (applicationDetail.isApplicationPaid()) {
+				paid++;
+			}
+		}
+		result.setApplicationPaidCount(paid);
+		result.setPaymentTotal(paymentMapper.getPaymentTotal(campId, null));
+		result.setPaymentCashTotal(paymentMapper.getPaymentTotal(campId, PaymentForm.CASH));
+		result.setPaymentTransferTotal(paymentMapper.getPaymentTotal(campId, PaymentForm.TRANSFER));
+		return result;
 	}
 
 	public void removeApplication(ApplicationDetail application) {

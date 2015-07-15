@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.collections.*?>
-
-<AnchorPane prefHeight="363.0" prefWidth="693.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.miko.tabor.controller.ApplicationOverviewController">
+<?import java.lang.String?>
+<AnchorPane stylesheets="/css/main.css"
+            prefHeight="363.0" prefWidth="693.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="cz.miko.tabor.controller.ApplicationOverviewController">
     <children>
-        <SplitPane dividerPositions="0.7127" layoutX="153.0" layoutY="70.0" prefHeight="300.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <SplitPane dividerPositions="0.7127" layoutX="153.0" layoutY="70.0" prefHeight="300.0" prefWidth="600.0"
+                   AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                   AnchorPane.topAnchor="0.0">
             <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="300.0">
                     <children>
-                        <HBox id="HBox" alignment="CENTER" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                        <HBox id="HBox" alignment="CENTER" spacing="5.0" AnchorPane.leftAnchor="10.0"
+                              AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                             <children>
-                                <TextField fx:id="filterField" prefWidth="-1.0" promptText="Filtruj podle jména, přijmení nebo kódu" HBox.hgrow="ALWAYS" />
+                                <TextField fx:id="filterField" prefWidth="-1.0"
+                                           promptText="Filtruj podle jména, přijmení nebo kódu" HBox.hgrow="ALWAYS"/>
                                 <ComboBox fx:id="paidFilterComboBox">
                                     <items>
                                         <FXCollections fx:factory="observableArrayList">
-                                            <String fx:value="Vše" />
-                                            <String fx:value="Uhrazeno" />
-                                            <String fx:value="Neuhrazeno" />
+                                            <String fx:value="Vše"/>
+                                            <String fx:value="Uhrazeno"/>
+                                            <String fx:value="Neuhrazeno"/>
                                         </FXCollections>
                                     </items>
                                     <value>
@@ -31,78 +36,84 @@
                                 <ComboBox fx:id="gangFilteredComboBox"></ComboBox>
                             </children>
                         </HBox>
-                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="40.0">
+                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0"
+                              AnchorPane.topAnchor="40.0">
                             <children>
-                                <TableView fx:id="applicationTable" layoutX="-12.0" layoutY="49.0" prefHeight="800.0" prefWidth="175.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+                                <TableView fx:id="applicationTable" layoutX="-12.0" layoutY="49.0" prefHeight="800.0"
+                                           prefWidth="175.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                           AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
                                     <columns>
                                         <TableColumn fx:id="code" prefWidth="75.0" text="Kód">
                                             <cellValueFactory>
-                                                <PropertyValueFactory property="code" />
+                                                <PropertyValueFactory property="code"/>
                                             </cellValueFactory>
                                         </TableColumn>
                                         <TableColumn fx:id="precode" prefWidth="75.0" text="Předběžný kód">
                                             <cellValueFactory>
-                                                <PropertyValueFactory property="preCode" />
+                                                <PropertyValueFactory property="preCode"/>
                                             </cellValueFactory>
                                         </TableColumn>
                                         <TableColumn fx:id="firstNameColumn" prefWidth="75.0" text="Jméno">
                                             <cellValueFactory>
-                                                <PropertyValueFactory property="firstName" />
+                                                <PropertyValueFactory property="firstName"/>
                                             </cellValueFactory>
                                         </TableColumn>
                                         <TableColumn fx:id="lastNameColumn" prefWidth="75.0" text="Příjmení">
                                             <cellValueFactory>
-                                                <PropertyValueFactory property="lastName" />
+                                                <PropertyValueFactory property="lastName"/>
                                             </cellValueFactory>
                                         </TableColumn>
                                         <TableColumn fx:id="birthdayColumn" prefWidth="75.0" text="Datum narození">
                                             <cellValueFactory>
-                                                <PropertyValueFactory property="birthday" />
+                                                <PropertyValueFactory property="birthday"/>
                                             </cellValueFactory>
                                         </TableColumn>
                                         <TableColumn fx:id="priceColumn" prefWidth="75.0" text="Cena">
                                             <cellValueFactory>
-                                                <PropertyValueFactory property="individualPriceOrCampPrice" />
+                                                <PropertyValueFactory property="individualPriceOrCampPrice"/>
                                             </cellValueFactory>
                                         </TableColumn>
                                         <TableColumn fx:id="paidColumn" prefWidth="75.0" text="Uhrazeno">
                                             <cellValueFactory>
-                                                <PropertyValueFactory property="paid" />
+                                                <PropertyValueFactory property="paid"/>
                                             </cellValueFactory>
                                         </TableColumn>
                                         <TableColumn fx:id="gangNameColumn" prefWidth="75.0" text="Četa">
                                             <cellValueFactory>
-                                                <PropertyValueFactory property="gangName" />
+                                                <PropertyValueFactory property="gangName"/>
                                             </cellValueFactory>
                                         </TableColumn>
                                     </columns>
                                     <columnResizePolicy>
-                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
                                     </columnResizePolicy>
-                           <padding>
-                              <Insets bottom="1.0" />
-                           </padding>
+                                    <padding>
+                                        <Insets bottom="1.0"/>
+                                    </padding>
                                 </TableView>
-                                <TableView fx:id="paymentTable" layoutX="-12.0" layoutY="120.0" minHeight="100.0" prefHeight="200.0" prefWidth="175.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+                                <TableView fx:id="paymentTable" layoutX="-12.0" layoutY="120.0" minHeight="100.0"
+                                           prefHeight="200.0" prefWidth="175.0" AnchorPane.bottomAnchor="0.0"
+                                           AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                           AnchorPane.topAnchor="40.0">
                                     <columns>
                                         <TableColumn fx:id="paymentTypeColumn" prefWidth="75.0" text="Typ platby">
                                             <cellValueFactory>
-                                                <PropertyValueFactory property="paymentType" />
+                                                <PropertyValueFactory property="paymentType"/>
                                             </cellValueFactory>
                                         </TableColumn>
                                         <TableColumn fx:id="paymentAmountColumn" prefWidth="75.0" text="Částka">
                                             <cellValueFactory>
-                                                <PropertyValueFactory property="amount" />
+                                                <PropertyValueFactory property="amount"/>
                                             </cellValueFactory>
                                         </TableColumn>
                                         <TableColumn fx:id="paymentDataColumn" prefWidth="75.0" text="Datum">
                                             <cellValueFactory>
-                                                <PropertyValueFactory property="paymentDate" />
+                                                <PropertyValueFactory property="paymentDate"/>
                                             </cellValueFactory>
                                         </TableColumn>
                                         <TableColumn fx:id="paymentFormColumn" prefWidth="75.0" text="Způsob úhrady">
                                             <cellValueFactory>
-                                                <PropertyValueFactory property="paymentForm" />
+                                                <PropertyValueFactory property="paymentForm"/>
                                             </cellValueFactory>
                                         </TableColumn>
                                         <TableColumn fx:id="actionColumn" prefWidth="25.0" text="Akce">
@@ -110,75 +121,136 @@
                                         </TableColumn>
                                     </columns>
                                     <columnResizePolicy>
-                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
                                     </columnResizePolicy>
-                           <padding>
-                              <Insets bottom="5.0" top="1.0" />
-                           </padding>
+                                    <padding>
+                                        <Insets bottom="5.0" top="1.0"/>
+                                    </padding>
                                 </TableView>
                             </children>
-                     <padding>
-                        <Insets bottom="5.0" />
-                     </padding>
+                            <padding>
+                                <Insets bottom="5.0"/>
+                            </padding>
                         </VBox>
                     </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="361.0" prefWidth="331.0" styleClass="background">
                     <children>
-                        <GridPane hgap="20.0" layoutX="5.0" layoutY="20.0" prefHeight="173.0" prefWidth="393.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="20.0">
-                            <children>
-                                <Label text="Kód" />
-                                <Label text="Před.kód" GridPane.rowIndex="1" />
-                                <Label text="Cena" GridPane.rowIndex="2" />
-                                <Label text="Jméno" GridPane.rowIndex="3" />
-                                <Label text="Příjmení" GridPane.rowIndex="4" />
-                                <Label text="Ulice" GridPane.rowIndex="5" />
-                                <Label text="Město" GridPane.rowIndex="6" />
-                                <Label text="PSČ" GridPane.rowIndex="7" />
-                                <Label text="D.narození" GridPane.rowIndex="8" />
-                                <Label text="Telefon" GridPane.rowIndex="9" />
-                                <Label text="Email" GridPane.rowIndex="10" />
-                                <Label text="Poznámka" GridPane.rowIndex="11" />
-                                <Label text="Četa" GridPane.rowIndex="12" />
+                        <SplitPane orientation="VERTICAL" dividerPositions="0.5" AnchorPane.bottomAnchor="0.0"
+                                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <items>
+                                <GridPane styleClass="grid"
+                                        hgap="20.0" layoutX="5.0" layoutY="20.0" prefHeight="173.0" prefWidth="393.0"
+                                        AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0"
+                                        AnchorPane.topAnchor="20.0">
+                                    <children>
+                                        <Label text="Kód" styleClass="formLabel"/>
+                                        <Label text="Před.kód" GridPane.rowIndex="1" styleClass="formLabel"/>
+                                        <Label text="Cena" GridPane.rowIndex="2" styleClass="formLabel"/>
+                                        <Label text="Jméno" GridPane.rowIndex="3" styleClass="formLabel"/>
+                                        <Label text="Příjmení" GridPane.rowIndex="4" styleClass="formLabel"/>
+                                        <Label text="Ulice" GridPane.rowIndex="5" styleClass="formLabel"/>
+                                        <Label text="Město" GridPane.rowIndex="6" styleClass="formLabel"/>
+                                        <Label text="PSČ" GridPane.rowIndex="7" styleClass="formLabel"/>
+                                        <Label text="D.narození" GridPane.rowIndex="8" styleClass="formLabel"/>
+                                        <Label text="Telefon" GridPane.rowIndex="9" styleClass="formLabel"/>
+                                        <Label text="Email" GridPane.rowIndex="10" styleClass="formLabel"/>
+                                        <Label text="Poznámka" GridPane.rowIndex="11" styleClass="formLabel"/>
+                                        <Label text="Četa" GridPane.rowIndex="12" styleClass="formLabel"/>
 
-                                <Label fx:id="codeLabel" styleClass="label-bright" text="Label" GridPane.columnIndex="1" />
-                                <Label fx:id="preCodeLabel" styleClass="label-bright" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                <Label fx:id="priceLabel" styleClass="label-bright" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                <Label fx:id="firstNameLabel" styleClass="label-bright" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                <Label fx:id="lastNameLabel" styleClass="label-bright" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                <Label fx:id="streetLabel" styleClass="label-bright" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                <Label fx:id="cityLabel" styleClass="label-bright" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                                <Label fx:id="postalCodeLabel" styleClass="label-bright" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7">
-                                    <GridPane.margin>
-                                        <Insets />
-                                    </GridPane.margin>
-                                </Label>
-                                <Label fx:id="birthdayLabel" styleClass="label-bright" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                                <Label fx:id="phoneLabel" styleClass="label-bright" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                                <Label fx:id="emailLabel" styleClass="label-bright" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-                                <Label fx:id="noteLabel" styleClass="label-bright" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-                                <Label fx:id="gangLabel" styleClass="label-bright" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="12" />
-                            </children>
-                            <columnConstraints>
-                                <ColumnConstraints minWidth="70.0" />
-                                <ColumnConstraints />
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints />
-                                <RowConstraints />
-                                <RowConstraints />
-                                <RowConstraints />
-                                <RowConstraints />
-                                <RowConstraints />
-                                <RowConstraints />
-                                <RowConstraints />
-                                <RowConstraints />
-                                <RowConstraints />
-                                <RowConstraints />
-                                <RowConstraints />
-                        <RowConstraints />
-                            </rowConstraints>
-                        </GridPane>
+                                        <Label fx:id="codeLabel" styleClass="label-bright" text="Label"
+                                               GridPane.columnIndex="1"/>
+                                        <Label fx:id="preCodeLabel" styleClass="label-bright" text="Label"
+                                               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                        <Label fx:id="priceLabel" styleClass="label-bright" text="Label"
+                                               GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                        <Label fx:id="firstNameLabel" styleClass="label-bright" text="Label"
+                                               GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                                        <Label fx:id="lastNameLabel" styleClass="label-bright" text="Label"
+                                               GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                                        <Label fx:id="streetLabel" styleClass="label-bright" text="Label"
+                                               GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                                        <Label fx:id="cityLabel" styleClass="label-bright" text="Label"
+                                               GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+                                        <Label fx:id="postalCodeLabel" styleClass="label-bright" text="Label"
+                                               GridPane.columnIndex="1" GridPane.rowIndex="7">
+                                            <GridPane.margin>
+                                                <Insets/>
+                                            </GridPane.margin>
+                                        </Label>
+                                        <Label fx:id="birthdayLabel" styleClass="label-bright" text="Label"
+                                               GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+                                        <Label fx:id="phoneLabel" styleClass="label-bright" text="Label"
+                                               GridPane.columnIndex="1" GridPane.rowIndex="9"/>
+                                        <Label fx:id="emailLabel" styleClass="label-bright" text="Label"
+                                               GridPane.columnIndex="1" GridPane.rowIndex="10"/>
+                                        <Label fx:id="noteLabel" styleClass="label-bright" text="Label"
+                                               GridPane.columnIndex="1" GridPane.rowIndex="11"/>
+                                        <Label fx:id="gangLabel" styleClass="label-bright" text="Label"
+                                               GridPane.columnIndex="1" GridPane.rowIndex="12"/>
+                                    </children>
+                                    <columnConstraints>
+                                        <ColumnConstraints minWidth="30.0" prefWidth="250"/>
+                                        <ColumnConstraints prefWidth="150"/>
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                    </rowConstraints>
+                                </GridPane>
+                                <GridPane styleClass="grid"
+                                        hgap="20.0" layoutX="5.0" layoutY="20.0" prefHeight="173.0" prefWidth="393.0"
+                                          AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0"
+                                          AnchorPane.topAnchor="20.0">
+                                    <children>
+                                        <Label text="Celkem přihlášek" styleClass="formLabel"/>
+                                        <Label text="Celkem přihlášek - uhrazených" GridPane.rowIndex="1" styleClass="formLabel"/>
+                                        <Label text="Celkem přihlášek - holky" GridPane.rowIndex="2" styleClass="formLabel"/>
+                                        <Label text="Celkem přihlášek - kluci" GridPane.rowIndex="3" styleClass="formLabel"/>
+                                        <Label text="Celkem platby" GridPane.rowIndex="4" styleClass="formLabel"/>
+                                        <Label text="Celkem hotově" GridPane.rowIndex="5" styleClass="formLabel"/>
+                                        <Label text="Celkem na účtě" GridPane.rowIndex="6" styleClass="formLabel"/>
+                                        <Label fx:id="applicationCountLabel" GridPane.columnIndex="1"/>
+                                        <Label fx:id="applicationPaidLabel" GridPane.columnIndex="1"
+                                               GridPane.rowIndex="1"/>
+                                        <Label fx:id="applicationGirlCountLabel" GridPane.columnIndex="1"
+                                               GridPane.rowIndex="2"/>
+                                        <Label fx:id="applicationBoyCountLabel" GridPane.columnIndex="1"
+                                               GridPane.rowIndex="3"/>
+                                        <Label fx:id="paymentTotalLabel" GridPane.columnIndex="1"
+                                               GridPane.rowIndex="4"/>
+                                        <Label fx:id="paymentCashTotalLabel" GridPane.columnIndex="1"
+                                               GridPane.rowIndex="5"/>
+                                        <Label fx:id="paymentTransferTotalLabel" GridPane.columnIndex="1"
+                                               GridPane.rowIndex="6"/>
+                                    </children>
+                                    <columnConstraints>
+                                        <ColumnConstraints minWidth="30.0" prefWidth="250"/>
+                                        <ColumnConstraints prefWidth="150"/>
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                    </rowConstraints>
+                                </GridPane>
+                            </items>
+                        </SplitPane>
                     </children>
                 </AnchorPane>
             </items>
