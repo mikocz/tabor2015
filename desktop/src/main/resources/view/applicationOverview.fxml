@@ -68,6 +68,11 @@
                                                 <PropertyValueFactory property="birthday"/>
                                             </cellValueFactory>
                                         </TableColumn>
+                                        <TableColumn fx:id="ageColumn" prefWidth="75.0" text="Věk">
+                                            <cellValueFactory>
+                                                <PropertyValueFactory property="age"/>
+                                            </cellValueFactory>
+                                        </TableColumn>
                                         <TableColumn fx:id="priceColumn" prefWidth="75.0" text="Cena">
                                             <cellValueFactory>
                                                 <PropertyValueFactory property="individualPriceOrCampPrice"/>

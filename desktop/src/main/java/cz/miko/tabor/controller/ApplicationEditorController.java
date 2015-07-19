@@ -200,7 +200,11 @@ public class ApplicationEditorController extends AbstractController {
 		} else {
 			application.setPrice(null);
 		}
-		application.setGangId(gangComboBox.getSelectionModel().getSelectedItem().getId());
+		if (gangComboBox.getSelectionModel().getSelectedItem()!=null) {
+			application.setGangId(gangComboBox.getSelectionModel().getSelectedItem().getId());
+		} else {
+			application.setGangId(null);
+		}
 	}
 
 	public void setApplication(Application application) {
